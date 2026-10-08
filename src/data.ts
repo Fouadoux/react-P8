@@ -1,0 +1,228 @@
+import { FaJava } from 'react-icons/fa';
+import {
+  SiAngular,
+  SiApachemaven,
+  SiDocker,
+  SiGithubactions,
+  SiGitlab,
+  SiJavascript,
+  SiJenkins,
+  SiJunit5,
+  SiMistralai,
+  SiMongodb,
+  SiMysql,
+  SiNextdotjs,
+  SiPostgresql,
+  SiPostman,
+  SiPrisma,
+  SiReact,
+  SiReactrouter,
+  SiSpringboot,
+  SiTailwindcss,
+  SiTurso,
+  SiTypescript,
+  SiVercel,
+  SiVite,
+} from 'react-icons/si';
+import type { Project } from './types/project';
+import type { Profile } from './types/profile';
+import type { Skill } from './types/skill';
+
+// Static data replacing the former backend / database.
+// Add a skill or a project here and the whole site picks it up.
+
+// Contact address used by the contact form (mailto link).
+export const CONTACT_EMAIL = 'fouad.benhadda@gmail.com';
+export const GITHUB_URL = 'https://github.com/Fouadoux';
+
+// Optional profile details. A field left at null is simply not displayed on the site.
+export const profile: Profile = {
+  // Put a square portrait in public/images/ (e.g. '/images/profile.webp') to replace the initials.
+  photoUrl: '/images/moi.webp',
+  linkedinUrl: 'https://www.linkedin.com/in/fouad-benhadda-a54991263/',
+  // Link to a PDF in public/ (e.g. '/cv-fouad-benhadda.pdf') to show a "CV" download link.
+  cvUrl: null,
+  // Short status line shown in the hero, e.g. 'Disponible à partir de septembre · Paris'.
+  availability: null,
+  // One string per paragraph.
+  about: [
+    "Pendant huit ans, j'ai été chargé d'études thermiques. J'ai ensuite décidé de me reconvertir dans le développement et j'ai obtenu en juin 2025 le Master 1 Développeur d'applications Java (OpenClassrooms). Depuis fin 2025, je suis Software Engineer Java en alternance au sein d'une équipe produit d'un éditeur SaaS, où je suis pleinement intégré.",
+    "J'y ai mené une migration vers Spring Boot 4 et Java 25, refactoré une couche d'architecture sur 21 services, sécurisé des API avec Spring Security et fiabilisé des traitements asynchrones distribués. Ce que j'aime le plus : remonter d'un incident de production jusqu'à sa cause racine.",
+    "Mes projets de formation montrent aussi mon côté full stack : une plateforme de microservices (29 endpoints, 5 services), une application d'optimisation de performances (×38 et ×128) et plusieurs applications React. Je continue à progresser sur les tests, TypeScript et l'IA appliquée au développement.",
+    "Mon alternance se termine en mars 2027 et je recherche mon premier poste de développeur Java/React en CDI.",
+  ],
+};
+
+// Skills are declared once and referenced by the projects below (like a foreign key).
+const java: Skill = { id: 1, name: 'Java', category: 'Backend', icon: FaJava, iconColor: '#ED8B00' };
+const springBoot: Skill = { id: 2, name: 'Spring Boot', category: 'Backend', icon: SiSpringboot, iconColor: '#6DB33F' };
+const react: Skill = { id: 3, name: 'React', category: 'Frontend', icon: SiReact, iconColor: '#61DAFB' };
+const typescript: Skill = { id: 4, name: 'TypeScript', category: 'Frontend', icon: SiTypescript, iconColor: '#3178C6' };
+const tailwind: Skill = { id: 5, name: 'Tailwind CSS', category: 'Frontend', icon: SiTailwindcss, iconColor: '#06B6D4' };
+const nextJs: Skill = { id: 6, name: 'Next.js', category: 'Frontend', icon: SiNextdotjs };
+const postgres: Skill = { id: 7, name: 'PostgreSQL', category: 'Base de données', icon: SiPostgresql, iconColor: '#4169E1' };
+const prisma: Skill = { id: 8, name: 'Prisma', category: 'Base de données', icon: SiPrisma };
+const docker: Skill = { id: 9, name: 'Docker', category: 'DevOps', icon: SiDocker, iconColor: '#2496ED' };
+const maven: Skill = { id: 10, name: 'Maven', category: 'Outils', icon: SiApachemaven, iconColor: '#C71A36' };
+const vite: Skill = { id: 11, name: 'Vite', category: 'Outils', icon: SiVite, iconColor: '#646CFF' };
+const postman: Skill = { id: 12, name: 'Postman', category: 'Outils', icon: SiPostman, iconColor: '#FF6C37' };
+const javascript: Skill = { id: 13, name: 'JavaScript', category: 'Frontend', icon: SiJavascript, iconColor: '#F7DF1E' };
+const turso: Skill = { id: 14, name: 'Turso', category: 'Base de données', icon: SiTurso, iconColor: '#4FF8D2' };
+const vercel: Skill = { id: 15, name: 'Vercel', category: 'DevOps', icon: SiVercel };
+const reactRouter: Skill = { id: 16, name: 'React Router', category: 'Frontend', icon: SiReactrouter, iconColor: '#CA4245' };
+const mistral: Skill = { id: 17, name: 'Mistral AI', category: 'Outils', icon: SiMistralai, iconColor: '#FA520F' };
+const angular: Skill = { id: 18, name: 'Angular', category: 'Frontend', icon: SiAngular, iconColor: '#DD0031' };
+const mysql: Skill = { id: 19, name: 'MySQL', category: 'Base de données', icon: SiMysql, iconColor: '#4479A1' };
+const mongodb: Skill = { id: 20, name: 'MongoDB', category: 'Base de données', icon: SiMongodb, iconColor: '#47A248' };
+const githubActions: Skill = { id: 21, name: 'GitHub Actions', category: 'DevOps', icon: SiGithubactions, iconColor: '#2088FF' };
+const jenkins: Skill = { id: 22, name: 'Jenkins', category: 'DevOps', icon: SiJenkins, iconColor: '#D24939' };
+const gitlab: Skill = { id: 23, name: 'GitLab', category: 'DevOps', icon: SiGitlab, iconColor: '#FC6D26' };
+const junit: Skill = { id: 24, name: 'JUnit 5', category: 'Outils', icon: SiJunit5, iconColor: '#25A162' };
+
+export const skills: Skill[] = [
+  java,
+  springBoot,
+  react,
+  typescript,
+  javascript,
+  reactRouter,
+  angular,
+  tailwind,
+  nextJs,
+  postgres,
+  mysql,
+  mongodb,
+  prisma,
+  turso,
+  docker,
+  githubActions,
+  jenkins,
+  gitlab,
+  vercel,
+  maven,
+  junit,
+  vite,
+  postman,
+  mistral,
+];
+
+export const projects: Project[] = [
+  {
+    id: 3,
+    title: 'GlucoVision',
+    description: 'Évaluation du risque de diabète en microservices : Spring Boot, Angular, JWT et Docker.',
+    imageUrl: null,
+    content:
+      "GlucoVision est une application web qui évalue le risque de diabète de type 2 de patients, dans le cadre de consultations médicales. Le praticien gère les dossiers, ajoute des notes d'observation, et l'application calcule un niveau de risque (None, Borderline, In Danger ou Early Onset) à partir de l'âge, du sexe et des termes déclencheurs présents dans les notes.\n\nLe back-end est découpé en cinq microservices Spring Boot (authentification, patients, notes, risque et gateway), le front est en Angular, et tout se lance avec une seule commande Docker Compose.\n\nLe client demandait une base normalisée (3NF), des données patients sécurisées avec Spring Security et JWT, et une démarche de sobriété numérique (green code).",
+    highlights: [
+      "Architecture : une base par service, pour qu'une panne reste isolée. MySQL en 3NF pour les comptes et les patients, MongoDB pour les notes médicales, dont la structure varie d'une note à l'autre.",
+      "Sécurité : JWT et accès par rôle (USER, ADMIN, PENDING) avec Spring Security et @PreAuthorize. Un nouveau compte reste en attente jusqu'à sa validation par un administrateur.",
+      "Appels entre services : OpenFeign avec un JWT interne (rôle INTERNAL_SERVICE), obtenu auprès de auth-service grâce à une clé API partagée. Il ne peut pas être confondu avec un token utilisateur.",
+      "Les patients sont identifiés par un UID plutôt que par un numéro séquentiel, pour éviter les attaques par énumération.",
+      "Règle métier : une note médicale ne peut être modifiée ou supprimée que pendant 24 h, ce qui est contrôlé côté back-end.",
+      "Green code : pagination des endpoints les plus lourds (avant, toute la table était chargée en mémoire), recherches filtrées en base et images Docker allégées par multi-stage build.",
+      "Industrialisation : variables d'environnement centralisées, pipeline GitHub Actions (build et tests Maven), logs avec Promtail, Loki et Grafana, et documentation Swagger / OpenAPI.",
+      "Limites identifiées : la gateway ne filtre que de façon basique (la vraie sécurité est dans chaque service) et il n'y a pas de refresh token. Ce sont mes premières pistes d'amélioration.",
+    ],
+    repoUrl: 'https://github.com/Fouadoux/P9',
+    demoUrl: null,
+    createdAt: '2025-06-06',
+    skills: [java, springBoot, angular, typescript, mysql, mongodb, docker, githubActions],
+  },
+  {
+    id: 5,
+    title: 'TourGuide',
+    description: 'Optimisation d\'une application Spring Boot pour 100 000 utilisateurs : traitement parallèle et CI/CD.',
+    imageUrl: null,
+    gallery: [
+      {
+        src: '/images/tourguide_locations.webp',
+        caption: 'Temps de récupération des localisations selon le nombre d\'utilisateurs, avant (bleu) et après optimisation (rouge).',
+      },
+      {
+        src: '/images/tourguide_rewards.webp',
+        caption: 'Temps de calcul des récompenses selon le nombre d\'utilisateurs, avant (bleu) et après optimisation (rouge).',
+      },
+    ],
+    content:
+      "TourGuide est une application Spring Boot qui permet de trouver des attractions touristiques proches, d'obtenir des réductions sur les hôtels et les spectacles, et de suivre ses récompenses. Avec la croissance rapide du nombre d'utilisateurs, la localisation et le calcul des récompenses devenaient trop lents, et certains tests unitaires échouaient systématiquement ou de façon aléatoire.\n\nMa mission : fiabiliser les tests, accélérer les traitements pour 100 000 utilisateurs, améliorer la scalabilité et la maintenabilité, puis mettre en place un pipeline CI/CD et la documentation technique et fonctionnelle.",
+    highlights: [
+      'Localisation de 100 000 utilisateurs : 199 secondes au lieu de 7 579, soit environ 38 fois plus rapide.',
+      'Calcul des récompenses pour 100 000 utilisateurs : 500 secondes au lieu de 64 020, soit environ 128 fois plus rapide.',
+      'Méthode : passage d\'un traitement séquentiel à un traitement parallèle avec un ExecutorService, et CompletableFuture.allOf pour attendre la fin de toutes les tâches.',
+      'Tests instables : la ConcurrentModificationException venait de la liste des attractions visitées, modifiée par deux threads en même temps. Elle est remplacée par une CopyOnWriteArrayList, et l\'ajout des récompenses, mal implémenté, a aussi été corrigé.',
+      'Scalabilité : le tracker ne démarre plus dans le constructeur de TourGuideService. C\'est un @Component initialisé avec @PostConstruct, exécuté toutes les 5 minutes par un ScheduledThreadPool.',
+      'Une classe ExecutorConfig partage l\'ExecutorService entre les services et le ferme proprement à l\'arrêt de l\'application avec @PreDestroy.',
+      'Pipeline CI/CD avec GitHub Actions, GitLab et Jenkins pour automatiser le build, les tests et le déploiement.',
+      'Correction de la méthode getNearByAttractions, qui calcule les recommandations d\'attractions.',
+    ],
+    repoUrl: 'https://github.com/Fouadoux/P8',
+    demoUrl: null,
+    createdAt: '2025-02-24',
+    skills: [java, springBoot, junit, maven, githubActions, jenkins, gitlab],
+  },
+  {
+    id: 1,
+    title: 'Fisheye',
+    description: 'Plateforme de portfolios pour photographes : tri, likes et lightbox accessible au clavier.',
+    imageUrl: null,
+    gallery: [
+      { src: '/images/fisheye_homepage.webp', caption: "Page d'accueil : les six photographes de la plateforme." },
+      { src: '/images/fisheye_marcelno.webp', caption: "Page d'un photographe : tri par popularité, date ou titre, et likes." },
+      { src: '/images/fisheye_venice.webp', caption: 'Lightbox plein écran, navigable au clavier (← → et Échap).' },
+    ],
+    content:
+      "FishEye est une plateforme web pour photographes indépendants : chacun y dispose d'une page avec ses photos et vidéos, un tri, un système de likes et une lightbox plein écran. Le projet répond à un cahier des charges de refonte, avec une expérience accessible à tous.\n\nJ'ai intégré les maquettes Figma en composants React, conçu l'architecture des composants et appliqué les bonnes pratiques d'accessibilité (WCAG). Le site est déployé sur Vercel, avec une base SQLite hébergée chez Turso.\n\nAvec le recul, je n'utiliserais pas Prisma sur un projet sans backend complexe : sa documentation est trop souvent en retard et SQLite en direct suffit.",
+    highlights: [
+      "Accessibilité : HTML sémantique, attributs ARIA (aria-live, aria-pressed, role=\"dialog\"), focus trap dans les modales et navigation clavier complète.",
+      'Découpage serveur / client avec le App Router de Next.js : les pages serveur lisent la base, seuls le tri, la lightbox et les likes passent côté client.',
+      'Tri en mémoire avec useMemo sur trois critères (popularité, date, titre) : aucune requête réseau, le résultat est instantané.',
+      'Likes en optimistic update avec rollback en cas d\'erreur, persistés en localStorage. Fonctionnalité ajoutée en plus du cahier des charges.',
+      'Likes sécurisés : le client n\'envoie plus un total, mais appelle incrementLikes ou decrementLikes, calculés côté serveur (pas de manipulation, pas de race condition).',
+      'Erreurs typées (DataBaseError) remontées par les Server Actions jusqu\'à l\'Error Boundary, sans fuite d\'informations techniques.',
+      'Prisma étant peu compatible avec Turso, l\'accès aux données a été réécrit en SQL avec le client LibSQL pour le déploiement.',
+    ],
+    repoUrl: 'https://github.com/Fouadoux/react-P5',
+    demoUrl: 'https://react-p5-dun.vercel.app',
+    createdAt: '2026-02-26',
+    skills: [javascript, react, nextJs, tailwind, prisma, turso, vercel],
+  },
+  {
+    id: 2,
+    title: 'SportSee',
+    description: "Tableau de bord React des statistiques d'un coureur, avec une étude d'intégration IA (API Mistral).",
+    imageUrl: null,
+    gallery: [
+      {
+        src: '/images/sportsee_dashboard2.webp',
+        caption: 'Tableau de bord : distance sur 4 semaines et fréquence cardiaque, navigables par période.',
+      },
+      {
+        src: '/images/sportsee_dashboard1.webp',
+        caption: "Tableau de bord, suite : objectif hebdomadaire, durée d'activité et distance de la semaine.",
+      },
+      {
+        src: '/images/sportsee_profile.webp',
+        caption: "Page profil : informations de l'utilisateur et statistiques cumulées.",
+      },
+      { src: '/images/sportsee_login_no_browser.webp', caption: 'Connexion par identifiant et mot de passe.' },
+    ],
+    content:
+      "SportSee est un tableau de bord pour les coureurs : profil, activité quotidienne, sessions et performances d'un utilisateur connecté. Les graphiques sont faits avec Recharts, et les pages sont protégées par une authentification par token avec React Router.\n\nL'application peut tourner sur l'API réelle ou sur des données simulées, ce qui permet de la lancer sans back-end. Le back-end est un fork corrigé de la micro-API fournie : la version d'origine ne renvoyait pas tous les champs du profil.\n\nJ'ai aussi mené l'étude de conception d'un plan d'entraînement personnalisé généré par l'API Mistral. C'est un travail de conception documenté, sans code dans l'application : architecture, données envoyées, prompts, deux campagnes de tests, coûts et limites.",
+    highlights: [
+      "Authentification : le token obtenu à la connexion est stocké en localStorage et exposé par un AuthContext. Le dashboard et le profil passent par une route protégée.",
+      "Données interchangeables : une variable d'environnement (VITE_USE_MOCK) choisit, en un seul endroit, entre l'API réelle et les données simulées. Le reste de l'application ne sait pas laquelle est utilisée.",
+      "Séparation des responsabilités : couche API, service, hooks (useUserActivity, useUserProfile), modèles de données et calculs par semaine isolés dans des utilitaires.",
+      "Étude IA : un prompt par type d'objectif, et des dates de séances précalculées côté code, ce qui a donné 100 % de fiabilité sur 5 runs de validation.",
+      "Étude IA : la faisabilité d'un objectif est vérifiée par un agent Mistral qui exécute du code Python plutôt que de raisonner. Sur un même cas, le calcul énoncé en langage naturel donnait environ 40 % d'anomalies.",
+      "Étude IA : coût mesuré de 1 436 à 4 907 tokens par plan généré, requêtes testées avec des collections Postman.",
+    ],
+    repoUrl: 'https://github.com/Fouadoux/react-P6',
+    demoUrl: null,
+    createdAt: '2026-04-15',
+    skills: [react, javascript, tailwind, reactRouter, vite, postman, mistral],
+  },
+];
+
+export const getProjectById = (id: number): Project | undefined =>
+  projects.find((project) => project.id === id);
