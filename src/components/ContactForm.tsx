@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { CONTACT_EMAIL } from '../data';
+import { siteApi } from '../api/siteApi';
 // BACKEND DISABLED
 // import { contactApi } from '../api/contactApi';
 // import { ApiError } from '../api/httpClient';
@@ -27,9 +27,10 @@ export function ContactForm() {
       // await contactApi.send({ name, email, message });
 
       // No backend: open the visitor's mail client with the message pre-filled.
+      const { contactEmail } = await siteApi.getInfo();
       const subject = encodeURIComponent(`Message de ${name}`);
       const body = encodeURIComponent(`${message}\n\n${name} (${email})`);
-      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
       setStatus('success');
       setName('');
       setEmail('');

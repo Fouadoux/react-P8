@@ -4,7 +4,6 @@ import { projectsApi } from '../api/projectsApi';
 import { useFetch } from '../hooks/useFetch';
 import { ImageCarousel } from '../components/ImageCarousel';
 import { SkillBadge } from '../components/SkillBadge';
-import { projects } from '../data';
 
 const TEXT_LINK_CLASS =
   'font-medium underline decoration-2 underline-offset-4 transition-colors hover:text-primary';
@@ -23,6 +22,8 @@ export function ProjectDetailPage() {
 
   const fetchProject = useCallback(() => projectsApi.findById(projectId), [projectId]);
   const { data: project, isLoading, error } = useFetch(fetchProject, [projectId]);
+  const fetchProjects = useCallback(() => projectsApi.findAll(), []);
+  const { data: allProjects } = useFetch(fetchProjects, []);
 
   if (isLoading) {
     return <p className="text-neutral-500 dark:text-neutral-400">Chargement du projet...</p>;
@@ -41,7 +42,9 @@ export function ProjectDetailPage() {
 
   const { gallery = [], highlights = [] } = project;
   // Wraps around, so the last project points back to the first one.
-  const nextProject = projects[(projects.findIndex(({ id }) => id === project.id) + 1) % projects.length];
+  const nextProject = allProjects
+    ? allProjects[(allProjects.findIndex(({ id }) => id === project.id) + 1) % allProjects.length]
+    : undefined;
 
   return (
     <article className="flex max-w-4xl flex-col gap-8">
@@ -107,7 +110,7 @@ export function ProjectDetailPage() {
         ))}
       </div>
 
-      {nextProject.id !== project.id && (
+      {nextProject && nextProject.id !== project.id && (
         <Link
           to={`/projects/${nextProject.id}`}
           className="group mt-8 border-t border-border pt-8"

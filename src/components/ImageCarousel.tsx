@@ -12,13 +12,18 @@ interface ImageCarouselProps {
 // Minimum horizontal distance (px) for a touch gesture to count as a swipe.
 const SWIPE_THRESHOLD = 50;
 
-const CONTROL_CLASS =
-  'inline-flex size-10 items-center justify-center rounded border border-border bg-background transition-colors hover:border-primary hover:text-primary';
+// Floating over the picture: translucent so it stays legible on light and dark screenshots alike.
+const ARROW_CLASS =
+  'absolute top-1/2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background/75 text-foreground shadow-sm backdrop-blur-sm transition-colors hover:border-primary hover:text-primary';
+
+const THUMB_CLASS =
+  'aspect-video w-20 overflow-hidden rounded border transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
 
 export function ImageCarousel({ images, label }: ImageCarouselProps) {
   const [index, setIndex] = useState<number>(0);
   const touchStartX = useRef<number | null>(null);
   const count = images.length;
+  const hasControls = count > 1;
 
   // Wraps around: after the last image comes the first one, and the other way round.
   const goTo = (target: number) => setIndex((target + count) % count);
@@ -45,10 +50,10 @@ export function ImageCarousel({ images, label }: ImageCarouselProps) {
       aria-roledescription="carousel"
       aria-label={label}
       onKeyDown={handleKeyDown}
-      className="flex flex-col gap-3"
+      className="flex flex-col gap-4"
     >
       <div
-        className="overflow-hidden rounded border border-border bg-muted"
+        className="group relative overflow-hidden rounded border border-border bg-muted"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -77,25 +82,52 @@ export function ImageCarousel({ images, label }: ImageCarouselProps) {
             </div>
           ))}
         </div>
+
+        {hasControls && (
+          <>
+            <button type="button" className={`${ARROW_CLASS} left-3`} onClick={() => goTo(index - 1)} aria-label="Image précédente">
+              <ChevronLeft aria-hidden="true" className="size-5" />
+            </button>
+            <button type="button" className={`${ARROW_CLASS} right-3`} onClick={() => goTo(index + 1)} aria-label="Image suivante">
+              <ChevronRight aria-hidden="true" className="size-5" />
+            </button>
+            {/* Position, kept out of the caption so the live region only announces text. */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute right-3 top-3 rounded bg-background/75 px-2 py-1 text-xs font-medium tabular-nums text-muted-foreground backdrop-blur-sm"
+            >
+              {index + 1} / {count}
+            </span>
+          </>
+        )}
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-        {/* aria-live: screen readers announce the new caption when the slide changes. */}
-        <p aria-live="polite" className="text-sm text-muted-foreground">
-          {images[index].caption}
+        {/* aria-live: screen readers announce each new caption as it fades in. */}
+        <p aria-live="polite" className="max-w-2xl flex-1 text-sm text-muted-foreground">
+          <span key={index} className="block animate-in fade-in-0 slide-in-from-bottom-1 duration-500">
+            {images[index].caption}
+          </span>
         </p>
 
-        {count > 1 && (
-          <div className="flex shrink-0 items-center gap-3">
-            <span className="text-sm tabular-nums text-muted-foreground" aria-hidden="true">
-              {index + 1} / {count}
-            </span>
-            <button type="button" className={CONTROL_CLASS} onClick={() => goTo(index - 1)} aria-label="Image précédente">
-              <ChevronLeft aria-hidden="true" className="size-5" />
-            </button>
-            <button type="button" className={CONTROL_CLASS} onClick={() => goTo(index + 1)} aria-label="Image suivante">
-              <ChevronRight aria-hidden="true" className="size-5" />
-            </button>
+        {hasControls && (
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
+            {images.map(({ src }, thumbIndex) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => goTo(thumbIndex)}
+                aria-label={`Afficher l'image ${thumbIndex + 1} sur ${count}`}
+                aria-current={thumbIndex === index ? 'true' : undefined}
+                className={
+                  thumbIndex === index
+                    ? `${THUMB_CLASS} border-primary ring-1 ring-primary`
+                    : `${THUMB_CLASS} border-border opacity-60 hover:border-primary/60 hover:opacity-100`
+                }
+              >
+                <img src={src} alt="" loading="lazy" draggable={false} className="h-full w-full object-cover" />
+              </button>
+            ))}
           </div>
         )}
       </div>

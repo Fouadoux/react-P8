@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Download, Mail } from 'lucide-react';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
-import { CONTACT_EMAIL, GITHUB_URL } from '../data';
 import { profileApi } from '../api/profileApi';
+import { siteApi } from '../api/siteApi';
+import type { SiteInfo } from '../api/siteApi';
 import type { Profile } from '../types/profile';
 
 const ICON_LINK_CLASS =
@@ -10,19 +11,30 @@ const ICON_LINK_CLASS =
 
 export function Hero() {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [siteInfo, setSiteInfo] = useState<SiteInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    profileApi.getProfile()
-      .then((data) => {
-        setProfile(data);
+    let isCancelled = false;
+
+    // Both calls share the same data.json request.
+    Promise.all([profileApi.getProfile(), siteApi.getInfo()])
+      .then(([profileData, info]) => {
+        if (isCancelled) return;
+        setProfile(profileData);
+        setSiteInfo(info);
         setIsLoading(false);
       })
       .catch((err) => {
+        if (isCancelled) return;
         setError(err.message);
         setIsLoading(false);
       });
+
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
   if (isLoading) {
@@ -39,7 +51,7 @@ export function Hero() {
     );
   }
 
-  if (error || !profile) {
+  if (error || !profile || !siteInfo) {
     return (
       <section className="grid items-center gap-12 pb-6 pt-8 md:grid-cols-[1fr_auto] md:pt-16">
         <div>
@@ -50,6 +62,7 @@ export function Hero() {
   }
 
   const { photoUrl, linkedinUrl, cvUrl, availability } = profile;
+  const { contactEmail, githubUrl } = siteInfo;
 
   return (
     <section className="grid items-center gap-12 pb-6 pt-8 md:grid-cols-[1fr_auto] md:pt-16">
@@ -91,7 +104,7 @@ export function Hero() {
         </div>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
-          <a href={GITHUB_URL} target="_blank" rel="noreferrer" aria-label="GitHub" className={ICON_LINK_CLASS}>
+          <a href={githubUrl} target="_blank" rel="noreferrer" aria-label="GitHub" className={ICON_LINK_CLASS}>
             <FaGithub aria-hidden="true" className="size-5" />
           </a>
           {linkedinUrl && (
@@ -99,7 +112,7 @@ export function Hero() {
               <FaLinkedinIn aria-hidden="true" className="size-5" />
             </a>
           )}
-          <a href={`mailto:${CONTACT_EMAIL}`} aria-label="Envoyer un e-mail" className={ICON_LINK_CLASS}>
+          <a href={`mailto:${contactEmail}`} aria-label="Envoyer un e-mail" className={ICON_LINK_CLASS}>
             <Mail aria-hidden="true" className="size-5" />
           </a>
           {availability && (

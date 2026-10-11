@@ -1,13 +1,13 @@
-import { mockClient } from './mockClient';
-import { projects, getProjectById } from '../data';
-import type { Project } from '../types/project';
+import { loadSiteData } from '../lib/siteData';
 
 export const projectsApi = {
-  findAll: () => mockClient.get<Project[]>('/projects', projects),
-  findById: (id: number) => mockClient.get<Project | undefined>(`/projects/${id}`, getProjectById(id)),
+  findAll: () => loadSiteData().then((data) => data.projects),
+  findById: (id: number) =>
+    loadSiteData().then((data) => data.projects.find((project) => project.id === id)),
   findBySkill: (skill: string) =>
-    mockClient.get<Project[]>(
-      `/projects?skill=${encodeURIComponent(skill)}`,
-      projects.filter((p) => p.skills.some((s) => s.name.toLowerCase() === skill.toLowerCase()))
+    loadSiteData().then((data) =>
+      data.projects.filter((project) =>
+        project.skills.some((s) => s.name.toLowerCase() === skill.toLowerCase())
+      )
     ),
 };
