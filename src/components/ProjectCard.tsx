@@ -2,12 +2,12 @@ import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Project } from '../types/project';
 import { SkillBadge } from './SkillBadge';
+import { buttonVariants } from './ui/button';
+import { cn } from '@/lib/utils';
 
 interface ProjectCardProps {
   project: Project;
 }
-
-const BUTTON_CLASS = 'inline-flex h-10 items-center gap-1.5 rounded px-5 text-sm font-medium transition-colors';
 
 // A project presented like a case study: a visual on one side, the story on the other.
 // Rows alternate sides: the parent <li> carries the `group` class, so `group-even:` sees its position in the list.
@@ -56,7 +56,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link to={detailPath} className={`${BUTTON_CLASS} bg-primary text-primary-foreground hover:bg-primary/85`}>
+          <Link to={detailPath} className={cn(buttonVariants({ size: 'card' }))}>
             Voir le projet
           </Link>
           {project.demoUrl && (
@@ -64,7 +64,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               href={project.demoUrl}
               target="_blank"
               rel="noreferrer"
-              className={`${BUTTON_CLASS} border border-input hover:border-primary hover:text-primary`}
+              className={cn(buttonVariants({ variant: 'brandOutline', size: 'card' }))}
             >
               Démo
               <ArrowUpRight aria-hidden="true" className="size-4" />
@@ -75,7 +75,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               href={project.repoUrl}
               target="_blank"
               rel="noreferrer"
-              className={`${BUTTON_CLASS} border border-input hover:border-primary hover:text-primary`}
+              className={cn(buttonVariants({ variant: 'brandOutline', size: 'card' }))}
             >
               Code
               <ArrowUpRight aria-hidden="true" className="size-4" />

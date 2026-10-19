@@ -21,13 +21,3 @@ export interface Project {
   createdAt: string;
   skills: Skill[];
 }
-
-export interface ProjectInput {
-  title: string;
-  description: string;
-  imageUrl: string | null;
-  content: string | null;
-  repoUrl: string | null;
-  demoUrl: string | null;
-  skillIds: number[];
-}

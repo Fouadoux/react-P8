@@ -1,13 +1,11 @@
-import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { useState } from 'react';
 import { siteApi } from '../api/siteApi';
-// BACKEND DISABLED
-// import { contactApi } from '../api/contactApi';
-// import { ApiError } from '../api/httpClient';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
+import { getErrorMessage } from '@/lib/errors.ts';
 
 type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -24,8 +22,6 @@ export function ContactForm() {
     setErrorMessage(null);
 
     try {
-      // await contactApi.send({ name, email, message });
-
       // No backend: open the visitor's mail client with the message pre-filled.
       const { contactEmail } = await siteApi.getInfo();
       const subject = encodeURIComponent(`Message de ${name}`);
@@ -37,8 +33,7 @@ export function ContactForm() {
       setMessage('');
     } catch (error) {
       setStatus('error');
-      // setErrorMessage(error instanceof ApiError ? error.message : 'Une erreur est survenue.');
-      setErrorMessage(error instanceof Error ? error.message : 'Une erreur est survenue.');
+      setErrorMessage(getErrorMessage(error));
     }
   };
 

@@ -40,8 +40,3 @@ export interface Skill {
   icon?: IconType;
   iconColor?: string;
 }
-
-export interface SkillInput {
-  name: string;
-  category: string;
-}

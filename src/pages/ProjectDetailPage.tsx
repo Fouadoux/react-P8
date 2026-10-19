@@ -4,13 +4,12 @@ import { projectsApi } from '../api/projectsApi';
 import { useFetch } from '../hooks/useFetch';
 import { ImageCarousel } from '../components/ImageCarousel';
 import { SkillBadge } from '../components/SkillBadge';
+import { buttonVariants } from '../components/ui/button';
+import { cn } from '@/lib/utils';
+import { NotFoundPage } from './NotFoundPage';
 
 const TEXT_LINK_CLASS =
   'font-medium underline decoration-2 underline-offset-4 transition-colors hover:text-primary';
-
-const BUTTON_CLASS = 'inline-flex h-11 items-center rounded px-6 font-medium transition-colors';
-const PRIMARY_BUTTON_CLASS = `${BUTTON_CLASS} bg-primary text-primary-foreground hover:bg-primary/85`;
-const SECONDARY_BUTTON_CLASS = `${BUTTON_CLASS} border border-input hover:border-primary hover:text-primary`;
 
 // Text blocks share one measure so the page has a single, readable column;
 // only the media (carousel) is allowed to be wider.
@@ -21,22 +20,33 @@ export function ProjectDetailPage() {
   const projectId = Number(id);
 
   const fetchProject = useCallback(() => projectsApi.findById(projectId), [projectId]);
-  const { data: project, isLoading, error } = useFetch(fetchProject, [projectId]);
+  const { data: project, isLoading, error } = useFetch(fetchProject);
   const fetchProjects = useCallback(() => projectsApi.findAll(), []);
-  const { data: allProjects } = useFetch(fetchProjects, []);
+  const { data: allProjects } = useFetch(fetchProjects);
 
   if (isLoading) {
     return <p className="text-neutral-500 dark:text-neutral-400">Chargement du projet...</p>;
   }
 
-  if (error || !project) {
+  // A loading failure (network, bad JSON) is not a 404: the project may well exist.
+  if (error) {
     return (
       <div className="flex flex-col gap-3">
-        <p className="text-red-600 dark:text-red-400">Projet introuvable : {error}.</p>
+        <p className="text-red-600 dark:text-red-400">Impossible de charger le projet : {error}</p>
         <Link to="/" className={TEXT_LINK_CLASS}>
           Retour à l'accueil
         </Link>
       </div>
+    );
+  }
+
+  // Loaded fine, but no project has this id (unknown or non-numeric id in the URL).
+  if (!project) {
+    return (
+      <NotFoundPage
+        title="Projet introuvable"
+        description="Ce projet n'existe pas ou n'est plus disponible."
+      />
     );
   }
 
@@ -65,7 +75,7 @@ export function ProjectDetailPage() {
               href={project.demoUrl}
               target="_blank"
               rel="noreferrer"
-              className={PRIMARY_BUTTON_CLASS}
+              className={cn(buttonVariants({ size: 'cta' }))}
             >
               Voir la démo
             </a>
@@ -75,7 +85,7 @@ export function ProjectDetailPage() {
               href={project.repoUrl}
               target="_blank"
               rel="noreferrer"
-              className={project.demoUrl ? SECONDARY_BUTTON_CLASS : PRIMARY_BUTTON_CLASS}
+              className={cn(buttonVariants({ variant: project.demoUrl ? 'brandOutline' : 'default', size: 'cta' }))}
             >
               Voir le code
             </a>

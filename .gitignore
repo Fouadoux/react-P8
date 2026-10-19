@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Yarn (Berry): the install state is machine-specific
+.yarn/install-state.gz
+.yarn/cache
+.pnp.*

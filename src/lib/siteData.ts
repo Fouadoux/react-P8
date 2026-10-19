@@ -56,15 +56,21 @@ let cache: Promise<SiteData> | null = null;
 
 // Loads /data.json a single time; every API call shares the same request.
 export function loadSiteData(): Promise<SiteData> {
-  cache ??= fetch('/data.json')
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP ${response.status} au chargement de data.json`);
-      }
-      return response.json() as Promise<RawSiteData>;
-    })
-    .then(hydrate);
+    cache ??= fetch('/data.json')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Erreur HTTP ${response.status} au chargement de data.json`);
+          }
+          return response.json() as Promise<RawSiteData>;
+        })
+        .then(hydrate)
+        .catch((error:unknown) => {
+          cache = null;
+          throw error;
+        });
+
   return cache;
+
 }
 
 function hydrate(raw: RawSiteData): SiteData {

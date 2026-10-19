@@ -1,28 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { Mail } from 'lucide-react';
 import { siteApi } from '../api/siteApi';
 import { ContactForm } from './ContactForm';
 import { Section } from './Section';
+import { buttonVariants } from './ui/button';
+import { cn } from '@/lib/utils';
+import { useFetch } from '@/hooks/useFetch.ts';
 
 export function ContactSection() {
-  const [contactEmail, setContactEmail] = useState<string | null>(null);
 
-  useEffect(() => {
-    let isCancelled = false;
-
-    siteApi
-      .getInfo()
-      .then((info) => {
-        if (!isCancelled) setContactEmail(info.contactEmail);
-      })
-      .catch(() => {
-        // The mail button is hidden if the data cannot be loaded.
-      });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
+  const fetchSiteInfo = useCallback(() => siteApi.getInfo(), []);
+  const { data: siteInfo } = useFetch(fetchSiteInfo);
 
   return (
     <Section id="contact" title="Contact" subtitle="Une question, une proposition ? Je réponds par e-mail.">
@@ -32,13 +20,13 @@ export function ContactSection() {
             Le plus simple est de m'écrire directement. Si vous préférez, le formulaire ouvre votre application
             mail avec le message prêt à envoyer.
           </p>
-          {contactEmail && (
+          {siteInfo?.contactEmail && (
             <a
-              href={`mailto:${contactEmail}`}
-              className="mt-6 inline-flex h-11 items-center gap-2 rounded bg-primary px-6 font-medium text-primary-foreground transition-colors hover:bg-primary/85"
+              href={`mailto:${siteInfo.contactEmail}`}
+              className={cn(buttonVariants({ size: 'cta' }), 'mt-6')}
             >
               <Mail aria-hidden="true" className="size-4" />
-              {contactEmail}
+              {siteInfo.contactEmail}
             </a>
           )}
         </div>

@@ -13,18 +13,18 @@ export function Header() {
           Fouad Benhadda
         </Link>
         <nav className="flex items-center gap-4 text-sm font-medium text-muted-foreground sm:gap-6">
-          <a href="/#about" className={SECONDARY_LINK_CLASS}>
+          <Link to="/#about" className={SECONDARY_LINK_CLASS}>
             À propos
-          </a>
-          <a href="/#projects" className={SECONDARY_LINK_CLASS}>
+          </Link>
+          <Link to="/#projects" className={SECONDARY_LINK_CLASS}>
             Projets
-          </a>
-          <a href="/#skills" className={SECONDARY_LINK_CLASS}>
+          </Link>
+          <Link to="/#skills" className={SECONDARY_LINK_CLASS}>
             Compétences
-          </a>
-          <a href="/#contact" className={NAV_LINK_CLASS}>
+          </Link>
+          <Link to="/#contact" className={NAV_LINK_CLASS}>
             Contact
-          </a>
+          </Link>
           <ThemeToggle />
         </nav>
       </div>

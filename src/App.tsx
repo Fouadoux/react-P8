@@ -3,9 +3,8 @@ import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { ScrollToTop } from './components/ScrollToTop';
 import { HomePage } from './pages/HomePage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { ProjectDetailPage } from './pages/ProjectDetailPage';
-// BACKEND DISABLED: the admin page only writes to the API.
-// import { AdminPage } from './pages/AdminPage';
 
 function App() {
   return (
@@ -16,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/projects/:id" element={<ProjectDetailPage />} />
-          {/* <Route path="/admin" element={<AdminPage />} /> */}
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />

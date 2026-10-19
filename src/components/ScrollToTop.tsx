@@ -14,7 +14,7 @@ const HASH_TIMEOUT_MS = 2000;
 // fragment before React has rendered it, so the target is often missed. Waiting for the element
 // makes those links deterministic.
 export function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash , key } = useLocation();
 
   useEffect(() => {
     if (!hash) {
@@ -47,7 +47,7 @@ export function ScrollToTop() {
     }, HASH_RETRY_MS);
 
     return () => window.clearInterval(timer);
-  }, [pathname, hash]);
+  }, [pathname, hash, key]);
 
   return null;
 }
